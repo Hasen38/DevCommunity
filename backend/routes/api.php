@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authcontroller;
@@ -20,11 +21,11 @@ Route::put('/posts/{id}', [Postcontroller::class, 'update']);
 Route::delete('/posts/{id}', [Postcontroller::class, 'destroy']);
 
 Route::get('/categories', [CategoryController::class, 'index']);
-Route::post('/logout',[Authcontroller::class,'logout'])->middleware('auth:sanctum');    
+Route::post('/logout', [Authcontroller::class, 'logout'])->middleware('auth:sanctum');
 
-Route::post('/register',[Authcontroller::class,'register']);
+Route::post('/register', [Authcontroller::class, 'register']);
 
-Route::post('/login',[Authcontroller::class,'login']);
+Route::post('/login', [Authcontroller::class, 'login']);
 
 
 Route::post('/verify-email', [VerificationController::class, 'verifyEmail']);

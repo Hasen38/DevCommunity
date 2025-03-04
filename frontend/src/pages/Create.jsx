@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axiosClient from '../Axios/Axios-client';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axiosClient from "../Axios/Axios-client";
+import { useNavigate } from "react-router-dom";
 
 function CreateBlog() {
   const navigate = useNavigate();
@@ -9,31 +9,31 @@ function CreateBlog() {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [categories, setCategories] = useState([]);
-  // const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-  // useEffect(() => {
-  //   // Fetch categories when component mounts
-  //   const fetchCategories = async () => {
-  //     try {
-  //       const response = await axiosClient.get('categories');
-  //       setCategories(response.data);
-  //       if (response.data.length > 0) {
-  //         setSelectedCategory(response.data[0].id);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching categories:', error);
-  //     }
-  //   };
+  useEffect(() => {
+    // Fetch categories when component mounts
+    const fetchCategories = async () => {
+      try {
+        const response = await axiosClient.get("categories");
+        setCategories(response.data);
+        if (response.data.length > 0) {
+          setSelectedCategory(response.data[0].id);
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
 
-  //   fetchCategories();
-  // }, []);
+    fetchCategories();
+  }, []);
 
   // Handle image selection and preview
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
-      setImagePreview(URL.createObjectURL(file));  // For preview
+      setImagePreview(URL.createObjectURL(file)); // For preview
     }
   };
 
@@ -43,16 +43,16 @@ function CreateBlog() {
 
     // Create a new FormData object and append form fields
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('body', body);
+    formData.append("title", title);
+    formData.append("body", body);
     // formData.append('category', selectedCategory);
-    if (image) formData.append('image', image);
+    if (image) formData.append("image", image);
 
     // Send POST request to API
     axiosClient
-      .post('/posts', formData) // Directly pass the formData
+      .post("/posts", formData) // Directly pass the formData
       .then(() => {
-        navigate('/'); // Navigate to homepage after successful submission
+        navigate("/"); // Navigate to homepage after successful submission
       })
       .catch((error) => {
         console.error("There was an error submitting the form!", error);
@@ -61,13 +61,20 @@ function CreateBlog() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">Create a New Blog</h1>
-      
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg" encType='multipart/form-data'>
+    <div className="max-w-2xl p-6 mx-auto">
+      <h1 className="mb-6 text-3xl font-bold text-center">Create a New Blog</h1>
+
+      <form
+        onSubmit={handleSubmit}
+        className="p-6 bg-white rounded-lg shadow-lg"
+        encType="multipart/form-data"
+      >
         {/* Title input */}
         <div className="mb-4">
-          <label className="block text-gray-700 font-semibold mb-2" htmlFor="title">
+          <label
+            className="block mb-2 font-semibold text-gray-700"
+            htmlFor="title"
+          >
             Blog Title
           </label>
           <input
@@ -83,7 +90,7 @@ function CreateBlog() {
 
         {/* Image upload */}
         <div className="mb-4">
-          <label className="block text-gray-700 text-lg mb-2" htmlFor="image">
+          <label className="block mb-2 text-lg text-gray-700" htmlFor="image">
             Upload Image
           </label>
           <input
@@ -98,15 +105,18 @@ function CreateBlog() {
               <img
                 src={imagePreview}
                 alt="Preview"
-                className="max-w-full h-auto rounded-lg shadow-md"
+                className="h-auto max-w-full rounded-lg shadow-md"
               />
             </div>
           )}
         </div>
 
         {/* Category */}
-        {/* <div className="mb-4">
-          <label htmlFor="category" className="block text-gray-700 font-medium mb-2">
+        <div className="mb-4">
+          <label
+            htmlFor="category"
+            className="block mb-2 font-medium text-gray-700"
+          >
             Category
           </label>
           <select
@@ -122,11 +132,14 @@ function CreateBlog() {
               </option>
             ))}
           </select>
-        </div> */}
+        </div>
 
         {/* Body content */}
         <div className="mb-6">
-          <label className="block text-gray-700 font-semibold mb-2" htmlFor="body">
+          <label
+            className="block mb-2 font-semibold text-gray-700"
+            htmlFor="body"
+          >
             Blog Content
           </label>
           <textarea
@@ -143,7 +156,7 @@ function CreateBlog() {
         {/* Submit button */}
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-200"
+          className="w-full py-3 text-white transition duration-200 bg-blue-500 rounded-lg hover:bg-blue-600"
         >
           Publish
         </button>

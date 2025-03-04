@@ -1,9 +1,11 @@
 <?php
 
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 class PostResource extends JsonResource
 {
@@ -20,7 +22,9 @@ class PostResource extends JsonResource
             'body' => $this->body,
             'image' => $this->image,
             // 'category' => $this->category->name,
-            'user' => $this->user->name
+            'user' => $this->user->name,
+            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d H:i:s')
         ];
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -29,21 +30,21 @@ class Postcontroller extends Controller
         if ($request->has('category')) {
             $query->where('category_id', $request->category);
         }
-
-        $posts = $query->latest()->get();
+        $posts = $query->latest()->paginate(3);
         return PostResource::collection($posts);
     }
 
 
-public function store(Request $request)
-{
-    // Validate the incoming request data
-    $request->validate([
-        'title' => 'required|max:50',
-        'body' => 'nullable|max:255',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
-        // 'category_id' => 'nullable|max:255',
-    ]);
+    public function store(Request $request)
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'title' => 'required',
+            'body' => 'nullable',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
+            // 'category_id' => '',
+            // 'user_id' => '',mi
+        ]);
 
         $imagePath = null;
         if ($request->hasFile('image')) {
@@ -55,59 +56,60 @@ public function store(Request $request)
             'title' => $request->title,
             'body' => $request->body,
             'image' => $imagePath,
-            // 'category_id' => $request->category_id,
-            'user_id' => Auth::id(),
+            'category_id' => $request->category_id,
+            'user_id' => 1,
         ]);
-    
 
-     return response()->json($post,201);    
+
+        return response()->json($post, 201);
     }
 
-    
- 
+
+
     /**
      * Display the specified resource.
      */
     public function show($id)
     {
         $post = Post::with('user')->findOrFail($id);
-        return response()->json($post,200);
+        return response()->json($post, 200);
     }
 
 
-    
-    
     public function update(Request $request, Post $post)
     {
-        $validated = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image'=> 'image|mimes:jpeg,png,jpg,|max:2048'
+        // Validate request data
+        $validated = $request->validate([
+            'title' => '',
+            'body' => 'string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-         $imagePath = null;
+        // Handle image upload if present
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $imagePath = Storage::url($imagePath);
-            $post->image = $imagePath;
-        }
-        $post = Post::create([
-            'title' => $request->title,
-            'body' => $request->body,
-            'image' => $imagePath,
-            // 'category_id' => $request->category_id,
-            'user_id' => Auth::id(),
-        ]);
-        $post->update($validated);
-        return response()->json($post,201);
+            // Delete old image if exists
+            if ($post->image) {
+                $oldPath = str_replace('/storage/', '', $post->image);
+                Storage::disk('public')->delete($oldPath);
+            }
 
+            $imagePath = $request->file('image')->store('images', 'public');
+            $validated['image'] = Storage::url($imagePath);
+        }
+
+        // Update the post with validated data
+        $post->update($validated);
+
+        return response()->json($post, 200);
     }
+
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Post $post)
     {
         $post->delete();
-        return response()->json(['message' => 'Blog deleted successfully'],204);
-    }        
+        return response()->json(['message' => 'Blog deleted successfully'], 204);
     }
+}

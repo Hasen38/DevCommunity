@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('body');
             $table->string('image')->nullable();
-            // $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('category_id')->nullable();
             $table->foreignIdFor(User::class);
             $table->timestamps();
         });
