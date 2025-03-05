@@ -2,7 +2,7 @@
 ## Description
  is a lightweight, user-friendly blogging platform designed to simplify content creation and sharing. Built with a focus on flexibility and accessibility, it empowers users to write, organize, and publish posts effortlessly.
 
-
+# [Watch Demo Video](https://youtu.be/N6qT9_74Zy4)
 
 ## Screenshots
 
