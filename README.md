@@ -1,12 +1,13 @@
-# Expense Tracker
+# DevCommunity
 ## Description
-Expense Tracker is designed to assist you in meticulously monitoring your personal finances. Built with Laravel and Livewire, it empowers you to effortlessly record and oversee your expenses, classify them by account type (such as cash or bank), and generate insightful reports to gain valuable insights into your financial habits and trends.
+ is a lightweight, user-friendly blogging platform designed to simplify content creation and sharing. Built with a focus on flexibility and accessibility, it empowers users to write, organize, and publish posts effortlessly.
+
+
 
 ## Screenshots
 
-![Hero](https://github.com/Hasen38/DevCommunity/commit/0096c8eff9b1378d7f59ec08feb9f1dfe9a68cd5)
-
-![](https://github.com/Hasen38/DevCommunity/commit/0096c8eff9b1378d7f59ec08feb9f1dfe9a68cd5)
+![Hero](https://github.com/Hasen38/DevCommunity/commit/0096c8eff9b1378d7f59ec08feb9f1dfe9a68cd5.png)
+![](https://github.com/Hasen38/DevCommunity/commit/0096c8eff9b1378d7f59ec08feb9f1dfe9a68cd5.png)
 ![](https://github.com/Hasen38/DevCommunity/blob/main/Screenshot%202025-02-24%20174900.png)
 
 
